@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="lib for M 1.4/axis.jar"/>
+	<classpathentry kind="lib" path="lib for M 1.4/axis-ant.jar"/>
+	<classpathentry kind="lib" path="lib for M 1.4/commons-discovery-0.2.jar"/>
+	<classpathentry kind="lib" path="lib for M 1.4/commons-logging-1.0.4.jar"/>
+	<classpathentry kind="lib" path="lib for M 1.4/jaxrpc.jar"/>
+	<classpathentry kind="lib" path="lib for M 1.4/log4j-1.2.8.jar"/>
+	<classpathentry kind="lib" path="lib for M 1.4/org.eclipse.osgi_3.1.2.jar"/>
+	<classpathentry kind="lib" path="lib for M 1.4/QNM2MetaMod.jar"/>
+	<classpathentry kind="lib" path="lib for M 1.4/saaj.jar"/>
+	<classpathentry kind="lib" path="lib for M 1.4/wsdl4j-1.5.1.jar"/>
+	<classpathentry kind="lib" path="lib for M 1.4/org.eclipse.uml2_1.1.1.jar"/>
+	<classpathentry kind="lib" path="lib for M1.3/V1.1modelReaderUML2.jar"/>
+	<classpathentry kind="lib" path="lib for M 1.4/org.eclipse.xsd_2.2.1.v200609071016.jar"/>
+	<classpathentry kind="lib" path="lib for M 1.4/EGMetaModelV2.jar"/>
+	<classpathentry kind="lib" path="lib for M 1.4/org.eclipse.emf.common_2.2.1.v200609071016.jar"/>
+	<classpathentry kind="lib" path="lib for M 1.4/org.eclipse.core.runtime_3.2.0.v20060603.jar"/>
+	<classpathentry kind="lib" path="lib for M 1.4/org.eclipse.emf_2.2.0.v200609071016.jar"/>
+	<classpathentry kind="lib" path="lib for M 1.4/org.eclipse.emf.ecore_2.2.1.v200609071016.jar"/>
+	<classpathentry kind="lib" path="lib for M 1.4/org.eclipse.emf.ecore.xmi_2.2.1.v200609071016.jar"/>
+	<classpathentry kind="lib" path="lib for M 1.4/org.eclipse.uml2.common_1.2.1.v200609210850.jar"/>
+	<classpathentry kind="lib" path="lib for M 1.4/org.eclipse.uml2.resources_1.1.0.jar"/>
+	<classpathentry kind="lib" path="lib for M 1.4/org.eclipse.uml2.uml_2.0.1.v200609210850.jar"/>
+	<classpathentry kind="lib" path="lib for M 1.4/org.eclipse.uml2.uml.resources_2.0.1.v200609210850.jar"/>
+	<classpathentry kind="lib" path="lib/PmifMetaModelIbrid.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

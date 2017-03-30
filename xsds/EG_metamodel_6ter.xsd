@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSPY v2004 rel. 3 U (http://www.xmlspy.com) by Vittorio Cortellessa (Università dell'Aquila) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:include schemaLocation="ProcessingOverhead.xsd"/>
+	<xs:simpleType name="positivefloat">
+		<xs:restriction base="xs:float">
+			<xs:minInclusive value="0"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="SPE_priority_type">
+		<xs:restriction base="xs:integer">
+			<xs:minInclusive value="1"/>
+			<xs:maxInclusive value="15"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="probability_type">
+		<xs:restriction base="xs:float">
+			<xs:minInclusive value="0"/>
+			<xs:maxInclusive value="1"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="partnerType_type">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="SynchronousCall"/>
+			<xs:enumeration value="DeferredSynchronousCall"/>
+			<xs:enumeration value="AsynchronousCall"/>
+			<xs:enumeration value="NoReply"/>
+			<xs:enumeration value="Reply"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:element name="Project" type="Project_type"/>
+	<xs:complexType name="Project_type">
+		<xs:sequence>
+			<xs:element name="PerformanceScenario" type="PS_type" maxOccurs="unbounded"/>
+			<xs:element ref="ProcessingOverhead" minOccurs="0"/>
+		</xs:sequence>
+		<xs:attribute name="Project_Name" type="xs:string" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="PS_type">
+		<xs:sequence>
+			<xs:element name="ExecutionGraph" type="EG_type" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="ScenarioName" type="xs:string" use="required"/>
+		<xs:attribute name="InterarrivalTime" type="positivefloat" use="required"/>
+		<xs:attribute name="NumberOfJobs" type="xs:positiveInteger" use="required"/>
+		<xs:attribute name="Priority" type="SPE_priority_type" use="optional"/>
+		<xs:attribute name="SWmodelfilename" type="xs:anyURI" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="EG_type">
+		<xs:sequence>
+			<xs:choice maxOccurs="unbounded">
+				<xs:sequence>
+					<xs:choice>
+						<xs:element name="BasicNode" type="BasicNode_type"/>
+						<xs:element name="ExpandedNode" type="ExpandedNode_type"/>
+						<xs:element name="LinkNode" type="LinkNode_type"/>
+						<xs:element name="SynchronizationNode" type="SynchroNode_type"/>
+					</xs:choice>
+					<xs:element name="ResourceRequirement" minOccurs="0" maxOccurs="unbounded">
+						<xs:complexType>
+							<xs:complexContent>
+								<xs:extension base="ResourceRequirement_type"/>
+							</xs:complexContent>
+						</xs:complexType>
+					</xs:element>
+				</xs:sequence>
+				<xs:element name="CompoundNode" type="CompoundNode_type"/>
+			</xs:choice>
+			<xs:element name="Arc" type="Arc_type" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="EGname" type="xs:ID" use="required"/>
+		<xs:attribute name="IsMainEG" type="xs:boolean" use="required"/>
+		<xs:attribute name="StartNode" type="xs:IDREF" use="required"/>
+		<xs:attribute name="ModificationDateTime" type="xs:dateTime" use="optional"/>
+		<xs:attribute name="SWmodelname" type="xs:string" use="optional"/>
+	</xs:complexType>
+	<xs:complexType name="Arc_type">
+		<xs:attribute name="FromNode" type="xs:IDREF" use="required"/>
+		<xs:attribute name="ToNode" type="xs:IDREF" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="ResourceRequirement_type">
+		<xs:attribute name="ResourceName" type="xs:IDREF" use="required"/>
+		<xs:attribute name="UnitsOfService" type="nonnegativefloat" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="ProcessingNode_type">
+		<xs:attribute name="NodeName" type="xs:ID" use="required"/>
+		<xs:attribute name="Probability" type="probability_type" use="optional"/>
+	</xs:complexType>
+	<xs:complexType name="ExpandedNode_type">
+		<xs:attribute name="NodeName" type="xs:ID" use="required"/>
+		<xs:attribute name="Probability" type="probability_type" use="optional"/>
+		<xs:attribute name="EGname" type="xs:IDREF" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="CompoundNode_type">
+		<xs:sequence>
+			<xs:choice>
+				<xs:element name="SplitNode" type="CPSNode_type"/>
+				<xs:element name="PardoNode" type="CPSNode_type"/>
+				<xs:element name="CaseNode" type="CPSNode_type"/>
+				<xs:element name="RepetitionNode" type="RepNode_type"/>
+			</xs:choice>
+			<xs:element name="ResourceRequirement" minOccurs="0" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:complexContent>
+						<xs:extension base="ResourceRequirement_type"/>
+					</xs:complexContent>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="NodeName" type="xs:ID" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="LinkNode_type">
+		<xs:attribute name="NodeName" type="xs:ID" use="required"/>
+		<xs:attribute name="Probability" type="probability_type" use="optional"/>
+		<xs:attribute name="PerformanceScenarioName" type="xs:string" use="optional"/>
+		<xs:attribute name="PerformanceScenarioFilename" type="xs:anyURI" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="RepNode_type">
+		<xs:sequence>
+			<xs:choice>
+				<xs:element name="BasicNode" type="BasicNode_type"/>
+				<xs:element name="ExpandedNode" type="ExpandedNode_type"/>
+				<xs:element name="LinkNode" type="LinkNode_type"/>
+				<xs:element name="SynchronizationNode" type="SynchroNode_type"/>
+			</xs:choice>
+			<xs:element name="ResourceRequirement" minOccurs="0" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:complexContent>
+						<xs:extension base="ResourceRequirement_type"/>
+					</xs:complexContent>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="RepetitionFactor" type="positivefloat" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="CPSNode_type">
+		<xs:sequence maxOccurs="unbounded">
+			<xs:choice>
+				<xs:element name="BasicNode" type="BasicNode_type"/>
+				<xs:element name="ExpandedNode" type="ExpandedNode_type"/>
+				<xs:element name="LinkNode" type="LinkNode_type"/>
+				<xs:element name="SynchronizationNode" type="SynchroNode_type"/>
+			</xs:choice>
+			<xs:element name="ResourceRequirement" minOccurs="0" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:complexContent>
+						<xs:extension base="ResourceRequirement_type"/>
+					</xs:complexContent>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SynchroNode_type">
+		<xs:attribute name="NodeName" type="xs:ID" use="required"/>
+		<xs:attribute name="Probability" type="probability_type" use="optional"/>
+		<xs:attribute name="myType" type="partnerType_type" use="required"/>
+		<xs:attribute name="partnerPerfScenarioName" type="xs:string" use="required"/>
+		<xs:attribute name="partnerPerfFileName" type="xs:anyURI" use="required"/>
+		<xs:attribute name="partnerName" type="xs:string" use="required"/>
+		<xs:attribute name="partnerType" type="partnerType_type" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="BasicNode_type">
+		<xs:attribute name="NodeName" type="xs:ID" use="required"/>
+		<xs:attribute name="Probability" type="probability_type" use="optional"/>
+	</xs:complexType>
+</xs:schema>

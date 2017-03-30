@@ -1,0 +1,226 @@
+<!-- edited with XMLSpy v2006 sp1 U (http://www.altova.com) by Amie A. Stelmack (D.E.A.F., Inc.) -->
+<!-- edited with XMLSPY v2004 rel. 3 U (http://www.xmlspy.com) by C Smith (L&S) -->
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<!-- Global -->
+	<xsd:element name="QueueingNetworkModel" type="QNMType"/>
+	<!-- Complex Type Definitions -->
+	<xsd:complexType name="QNMType">
+		<xsd:sequence>
+			<xsd:element name="Node" type="NodeType" maxOccurs="unbounded"/>
+			<xsd:element name="Arc" type="ArcType" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="Workload" type="WorkloadType" maxOccurs="unbounded"/>
+			<xsd:element name="ServiceRequest" type="ServiceRequestType" maxOccurs="unbounded"/>
+		</xsd:sequence>
+		<xsd:attribute name="Name" type="xsd:string" use="optional"/>
+		<xsd:attribute name="Description" type="xsd:string" use="optional"/>
+		<xsd:attribute name="Date-Time" type="xsd:dateTime" use="optional"/>
+	</xsd:complexType>
+	<xsd:complexType name="WorkloadType">
+		<xsd:choice maxOccurs="unbounded">
+			<xsd:element name="OpenWorkload" minOccurs="0" maxOccurs="unbounded">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="Transit" type="TransitType" maxOccurs="unbounded"/>
+					</xsd:sequence>
+					<xsd:attribute name="WorkloadName" type="xsd:ID" use="required"/>
+					<xsd:attribute name="ArrivalRate" type="nonNegativeFloat" use="required"/>
+					<xsd:attribute name="TimeUnits" type="TimeUnitsType" use="optional"/>
+					<xsd:attribute name="ArrivesAt" type="xsd:IDREF" use="required"/>
+					<xsd:attribute name="DepartsAt" type="xsd:IDREF" use="required"/>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="ClosedWorkload" minOccurs="0" maxOccurs="unbounded">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="Transit" type="TransitType" maxOccurs="unbounded"/>
+					</xsd:sequence>
+					<xsd:attribute name="WorkloadName" type="xsd:ID" use="required"/>
+					<xsd:attribute name="NumberOfJobs" type="xsd:nonNegativeInteger" use="required"/>
+					<xsd:attribute name="ThinkTime" type="nonNegativeFloat" use="required"/>
+					<xsd:attribute name="TimeUnits" type="TimeUnitsType" use="optional"/>
+					<xsd:attribute name="ThinkDevice" type="xsd:IDREF" use="required"/>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:choice>
+	</xsd:complexType>
+	<xsd:complexType name="NodeType">
+		<xsd:choice minOccurs="0" maxOccurs="unbounded">
+			<xsd:element name="Server" minOccurs="0" maxOccurs="unbounded">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="Queue" type="QueueType" maxOccurs="unbounded"/>
+					</xsd:sequence>
+					<xsd:attribute name="Name" type="xsd:ID" use="required"/>
+					<xsd:attribute name="Quantity" type="xsd:nonNegativeInteger" use="required"/>
+					<xsd:attribute name="SchedulingPolicy" type="SchedulingType" use="required"/>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="WorkUnitServer" minOccurs="0" maxOccurs="unbounded">
+				<xsd:complexType>
+					<xsd:attribute name="Name" type="xsd:ID" use="required"/>
+					<xsd:attribute name="Quantity" type="xsd:nonNegativeInteger" use="required"/>
+					<xsd:attribute name="SchedulingPolicy" type="SchedulingType" use="required"/>
+					<xsd:attribute name="TimeUnits" type="TimeUnitsType" use="optional"/>
+					<xsd:attribute name="ServiceTime" type="nonNegativeFloat" use="required"/>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="SourceNode" minOccurs="0" maxOccurs="unbounded">
+				<xsd:complexType>
+					<xsd:attribute name="Name" type="xsd:ID" use="required"/>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="SinkNode" minOccurs="0" maxOccurs="unbounded">
+				<xsd:complexType>
+					<xsd:attribute name="Name" type="xsd:ID" use="required"/>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:choice>
+	</xsd:complexType>
+	<xsd:complexType name="ServiceRequestType">
+		<xsd:choice minOccurs="0" maxOccurs="unbounded">
+			<xsd:element name="TimeServiceRequest" type="TimeServType" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="DemandServiceRequest" type="DemandServType" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="WorkUnitServiceRequest" type="WorkUnitServType" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:choice>
+	</xsd:complexType>
+	<xsd:complexType name="QueueType">
+		<xsd:attribute name="Name" type="xsd:string" use="required"/>
+		<xsd:attribute name="Capacity" type="CapacityType" use="optional" default="Infinite"/>
+	</xsd:complexType>
+	<xsd:complexType name="DemandServType">
+		<xsd:sequence>
+			<xsd:element name="Transit" type="TransitType" maxOccurs="unbounded"/>
+		</xsd:sequence>
+		<xsd:attribute name="WorkloadName" type="xsd:IDREF" use="required"/>
+		<xsd:attribute name="ServerID" type="xsd:IDREF" use="required"/>
+		<xsd:attribute name="TimeUnits" type="TimeUnitsType" use="optional"/>
+		<xsd:attribute name="ServiceDemand" type="nonNegativeFloat" use="required"/>
+		<xsd:attribute name="NumberOfVisits" type="xsd:nonNegativeInteger" use="optional"/>
+	</xsd:complexType>
+	<xsd:complexType name="TimeServType">
+		<xsd:sequence>
+			<xsd:element name="Transit" type="TransitType" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="ForkTransit" type="ForkTransitType" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="JoinTransit" type="JoinTransitType" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+		<xsd:attribute name="WorkloadName" type="xsd:IDREF" use="required"/>
+		<xsd:attribute name="ServerID" type="xsd:IDREF" use="required"/>
+		<xsd:attribute name="Service" type="xsd:string" use="optional"/>
+		<xsd:attribute name="TimeUnits" type="TimeUnitsType" use="optional"/>
+		<xsd:attribute name="ServiceTime" type="nonNegativeFloat" use="required"/>
+		<xsd:attribute name="SchedulingPolicy" type="SchedulingType" use="required"/>
+		<xsd:attribute name="NumberOfVisits" type="xsd:nonNegativeInteger" use="optional"/>
+	</xsd:complexType>
+	<xsd:complexType name="WorkUnitServType">
+		<xsd:sequence>
+			<xsd:element name="Transit" type="TransitType" maxOccurs="unbounded"/>
+		</xsd:sequence>
+		<xsd:attribute name="WorkloadName" type="xsd:IDREF" use="required"/>
+		<xsd:attribute name="ServerID" type="xsd:IDREF" use="required"/>
+		<xsd:attribute name="NumberOfVisits" type="xsd:nonNegativeInteger" use="optional"/>
+	</xsd:complexType>
+	<xsd:complexType name="TransitType">
+		<xsd:attribute name="From" type="xsd:IDREF" use="required"/>
+		<xsd:attribute name="To" type="xsd:IDREF" use="required"/>
+		<xsd:attribute name="Service" type="xsd:string" use="optional"/>
+		<xsd:attribute name="Probability" type="nonNegativeFloat" use="required"/>
+	</xsd:complexType>
+	<xsd:complexType name="ForkTransitType">
+		<xsd:attribute name="From" type="xsd:IDREF" use="required"/>
+		<xsd:attribute name="To" type="xsd:IDREFS" use="required"/>
+		<xsd:attribute name="Service" type="xsd:string" use="optional"/>
+	</xsd:complexType>
+	<xsd:complexType name="JoinTransitType">
+		<xsd:attribute name="From" type="xsd:IDREFS" use="required"/>
+		<xsd:attribute name="To" type="xsd:IDREF" use="required"/>
+		<xsd:attribute name="Service" type="xsd:string" use="optional"/>
+	</xsd:complexType>
+	<xsd:complexType name="ArcType">
+		<xsd:attribute name="Description" type="xsd:string"/>
+		<xsd:attribute name="FromNode" type="xsd:IDREF" use="required"/>
+		<xsd:attribute name="ToNode" type="xsd:IDREF" use="required"/>
+	</xsd:complexType>
+	<!-- Simple Type Definitions -->
+	<xsd:simpleType name="nonNegativeFloat">
+		<xsd:restriction base="xsd:float">
+			<xsd:minInclusive value="0.0"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="CapacityType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="Infinite"/>
+			<xsd:enumeration value="Zero"/>
+			<xsd:enumeration value="Finite"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="TimeUnitsType">
+		<xsd:annotation>
+			<xsd:documentation>
+				If time units are omitted, all specifications are assumed to be the same relative units.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="day"/>
+			<xsd:enumeration value="Day"/>
+			<xsd:enumeration value="hr"/>
+			<xsd:enumeration value="Hr"/>
+			<xsd:enumeration value="min"/>
+			<xsd:enumeration value="Min"/>
+			<xsd:enumeration value="sec"/>
+			<xsd:enumeration value="Sec"/>
+			<xsd:enumeration value="ms"/>
+			<xsd:enumeration value="Ms"/>
+			<xsd:enumeration value="ns"/>
+			<xsd:enumeration value="Ns"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="SchedulingType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="FCFS"/>
+			<xsd:enumeration value="IS"/>
+			<xsd:enumeration value="PS"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="QueueCapacityType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="Infinitive"/>
+			<xsd:enumeration value="Finite"/>
+			<xsd:enumeration value="Zero"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:annotation>
+		<xsd:documentation>
+		Entities (Elements):
+			Arc: An Arc connects two Nodes in a QueueingNetworkModel. Traversal of an Arc represents completion of a service request at the FromNode and a new request for service at the ToNode.
+			ClosedWorkload: A ClosedWorkload is a Workload with a fixed population that circulates among the Servers.
+			DemandServiceRequest: A DemandServiceRequest specifies the average service demand (service time multiplied by number of visits) provided for each workload that visits the Server.
+			Node: A Node represents an entity in the QueueingNetworkModel of the execution environment that either provides service or designates model topology.
+			Non-ServerNode: A Non-ServerNode represents a Node of the execution environment that designates model topology but does not provide processing service.
+			OpenWorkload: An OpenWorkload is a workload with a potentially infinite population where transactions or jobs arrive from the outside world, receive service, and exit. The population of the OpenWorkload at any one time is variable.
+			QueueingNetworkModel: A QueueingNetworkModel represents a network of connected servers that provides processing service for Workloads.
+			Server: A Server represents a Node of the execution environment that provides some processing service.
+			ServiceRequest: A ServiceRequest specifies either the average TimeService or DemandService provided for each workload that visits the Server.
+			SinkNode: A SinkNode represents a Node of the execution environment that designates where OpenWorkloads terminate.
+			SourceNode: A SourceNode represents a Node of the execution environment that designates where OpenWorkloads originate.
+			TimeServiceRequest: A TimeServiceRequest specifies the average service time and number of visits provided for each workload that visits the Server.
+			Workload: A Workload represents a collection of transactions or jobs that make similar service requests from servers in the QueueingNetworkModel.
+			WorkUnitServer: A WorkUnitServer represents a Server that has the same ServiceTime for all Workloads.
+			WorkUnitServiceRequest: A WorkUnitServiceRequest specifies the number of visits to a WorkUnitServer.
+
+		Attributes:
+			ArrivalRate: The average rate at which transactions or jobs arrive from the outside world, receive service, and exit.
+			ArrivesAt: The Name of the SourceNode of an OpenWorkload.
+			DepartsAt: The Name of the SinkNode of an OpenWorkload.
+			FromNode: The Name of the origin Node of an Arc.
+			NumberOfJobs: The fixed population that circulates among the Nodes.
+			NumberOfVisits: The average number of visits to a Server in a ServiceRequest.
+			Quantity: The number of instances of a given Server. Multiple servers have one queue for service requests.
+			SchedulingPolicy: The policy used to select the next ServiceRequest to be served from a queue.
+			ServiceDemand: The total demand for a service request. Demand is the product of ServiceTime and NumberOfVisits.
+			ServiceTime: The amount of time required for a server to perform one unit of service. A unit of service is the amount provided for each visit to the Server.
+			ThinkTime: The average interval of time that elapses between the completion of a transaction or job and the submission of the next transaction or job.
+			TimeUnits: The unit of time specified in a ServiceRequest or Workload intensity. If time units are omitted, all specifications are assumed to be the same relative units.				
+			ToNode: The Name of the destination Node of an Arc.
+		</xsd:documentation>
+	</xsd:annotation>
+</xsd:schema>

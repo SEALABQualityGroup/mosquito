@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSPY v2004 rel. 3 U (http://www.xmlspy.com) by Vittorio Cortellessa (Università dell'Aquila) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:element name="Devices" type="Devices_type">
+		<xs:annotation>
+			<xs:documentation>Comment describing your root element</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="Devices_type">
+		<xs:sequence>
+			<xs:element name="Device" type="Device_type" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Device_type">
+		<xs:attribute name="DeviceName" use="required">
+			<xs:simpleType>
+				<xs:restriction base="xs:ID">
+					<xs:maxLength value="32"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="DeviceFeature" type="DeviceFeature_type" use="required"/>
+		<xs:attribute name="Quantity" type="xs:nonNegativeInteger" use="required"/>
+		<xs:attribute name="SchedulingPolicy" type="SchedulingPolicy_type" use="required"/>
+		<xs:attribute name="ServiceUnits" use="required">
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:maxLength value="8"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="ServiceTime" type="nonnegativefloat" use="required"/>
+	</xs:complexType>
+	<xs:simpleType name="DeviceFeature_type">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="FCFS"/>
+			<xs:enumeration value="NonFCFSDemandSpec"/>
+			<xs:enumeration value="NonFCFSTimeSpec"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="SchedulingPolicy_type">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="FCFS"/>
+			<xs:enumeration value="PS"/>
+			<xs:enumeration value="IS"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="nonnegativefloat">
+		<xs:restriction base="xs:float">
+			<xs:minInclusive value="0"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

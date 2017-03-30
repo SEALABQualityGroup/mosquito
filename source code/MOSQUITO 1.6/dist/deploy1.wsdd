@@ -1,0 +1,10 @@
+<deployment
+  xmlns="http://xml.apache.org/axis/wsdd/"
+  xmlns:java="http://xml.apache.org/axis/wsdd/providers/java">
+  <service name="urn:RmiServerImpl" provider="java:RPC">
+    <parameter name="className" value="di.univaq.MOSQUITO.server.RmiServerImpl"/>
+    <parameter name="allowedMethods" value="EG_Generation,QN_Generation,QN_GenerationUML2,EG_GenerationUML2,QN_GenerationUML2V2,EG_GenerationUML2V2,QN_HW_Generation,getHardwareDevices,getSoftwareDevices,getAnnotatedEg,MergeEgQn"/>
+    <parameter name="scope" value="Session"/>
+    <beanMapping languageSpecificType="java:di.univaq.MOSQUITO.utility.BeanDevices" qname="ns1:BeanDevices" xmlns:ns1="urn:RmiServerImpl"/>
+  </service>
+</deployment>

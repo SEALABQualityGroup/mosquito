@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSPY v2004 rel. 3 U (http://www.xmlspy.com) by Vittorio Cortellessa (Università dell'Aquila) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:include schemaLocation="Devices.xsd"/>
+	<xs:element name="ProcessingOverhead" type="ProcessingOverhead_type">
+		<xs:annotation>
+			<xs:documentation>Comment describing your root element</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="ProcessingOverhead_type">
+		<xs:sequence>
+			<xs:element name="SoftwareResources">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="SoftwareResource" maxOccurs="unbounded">
+							<xs:complexType>
+								<xs:attribute name="ResourceName" type="xs:ID" use="required"/>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element ref="Devices"/>
+			<xs:element name="OverheadMatrix" type="OverheadMatrix_type"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="OverheadMatrix_type">
+		<xs:sequence>
+			<xs:element name="OMElement" type="OMElement_type" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="OMElement_type">
+		<xs:attribute name="ResourceName" type="xs:IDREF" use="required"/>
+		<xs:attribute name="DeviceName" type="xs:IDREF" use="required"/>
+		<xs:attribute name="AmountOfService" type="nonnegativefloat" use="required"/>
+	</xs:complexType>
+</xs:schema>
