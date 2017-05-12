@@ -9,7 +9,6 @@ MOSQUITO (MOdel driven conStruction of QUeuIng neTwOrks ) is a tool developed in
     - Independentcx
     - Apache Tomcat 6.0 with Axis2 1.4 1.5 or higher
   - Client Side Eclipse:
-    - Eclipse EMF SDK: Eclipse UML2 SDK: JDK version:
-      - 3.2 or higher 2.2.x
-      - 2.x
-      - 1.5 or higher
+    - Eclipse EMF SDK: 3.2 or higher 2.2.x
+    - Eclipse UML2 SDK: 2.x
+    - JDK version: 1.5 or higher
