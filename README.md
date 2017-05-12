@@ -4,10 +4,9 @@ MOSQUITO (MOdel driven conStruction of QUeuIng neTwOrks ) is a tool developed in
 
 *Installation Requirements
 - Server Side
-  - Operating System:
-    - Web Application Container: JDK version:
-    - Independentcx
-    - Apache Tomcat 6.0 with Axis2 1.4 1.5 or higher
+  - Operating System: Independent
+    - Web Application Container: Apache Tomcat 6.0 with Axis2
+    - JDK version: 1.4 1.5 or higher
   - Client Side Eclipse:
     - Eclipse EMF SDK: 3.2 or higher 2.2.x
     - Eclipse UML2 SDK: 2.x
